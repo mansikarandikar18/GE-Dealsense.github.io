@@ -1,0 +1,2067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GE DealSense - AI Pricing Intelligence</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+:root {
+  /* Primitive Color Tokens */
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-cream-50: rgba(252, 252, 249, 1);
+  --color-cream-100: rgba(255, 255, 253, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-slate-500: rgba(98, 108, 113, 1);
+  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-charcoal-700: rgba(31, 33, 33, 1);
+  --color-charcoal-800: rgba(38, 40, 40, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
+  --color-teal-300: rgba(50, 184, 198, 1);
+  --color-teal-400: rgba(45, 166, 178, 1);
+  --color-teal-500: rgba(33, 128, 141, 1);
+  --color-teal-600: rgba(29, 116, 128, 1);
+  --color-teal-700: rgba(26, 104, 115, 1);
+  --color-teal-800: rgba(41, 150, 161, 1);
+  --color-red-400: rgba(255, 84, 89, 1);
+  --color-red-500: rgba(192, 21, 47, 1);
+  --color-orange-400: rgba(230, 129, 97, 1);
+  --color-orange-500: rgba(168, 75, 47, 1);
+
+  /* RGB versions for opacity control */
+  --color-brown-600-rgb: 94, 82, 64;
+  --color-teal-500-rgb: 33, 128, 141;
+  --color-slate-900-rgb: 19, 52, 59;
+  --color-slate-500-rgb: 98, 108, 113;
+  --color-red-500-rgb: 192, 21, 47;
+  --color-red-400-rgb: 255, 84, 89;
+  --color-orange-500-rgb: 168, 75, 47;
+  --color-orange-400-rgb: 230, 129, 97;
+
+  /* Background color tokens (Light Mode) */
+  --color-bg-1: rgba(59, 130, 246, 0.08); /* Light blue */
+  --color-bg-2: rgba(245, 158, 11, 0.08); /* Light yellow */
+  --color-bg-3: rgba(34, 197, 94, 0.08); /* Light green */
+  --color-bg-4: rgba(239, 68, 68, 0.08); /* Light red */
+  --color-bg-5: rgba(147, 51, 234, 0.08); /* Light purple */
+  --color-bg-6: rgba(249, 115, 22, 0.08); /* Light orange */
+  --color-bg-7: rgba(236, 72, 153, 0.08); /* Light pink */
+  --color-bg-8: rgba(6, 182, 212, 0.08); /* Light cyan */
+
+  /* Semantic Color Tokens (Light Mode) */
+  --color-background: var(--color-cream-50);
+  --color-surface: var(--color-cream-100);
+  --color-text: var(--color-charcoal-700);
+  --color-text-secondary: var(--color-slate-500);
+  --color-text-muted: var(--color-gray-400);
+  --color-primary: var(--color-teal-500);
+  --color-primary-hover: var(--color-teal-600);
+  --color-primary-light: var(--color-teal-300);
+  --color-secondary: var(--color-slate-500);
+  --color-accent: var(--color-brown-600);
+  --color-border: var(--color-gray-200);
+  --color-border-light: rgba(var(--color-gray-300), 0.3);
+  --color-success: rgba(34, 197, 94, 1);
+  --color-warning: rgba(245, 158, 11, 1);
+  --color-error: var(--color-red-500);
+  --color-info: rgba(59, 130, 246, 1);
+
+  /* Typography */
+  --font-family-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
+
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family-base);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.6;
+  font-size: var(--font-size-base);
+}
+
+.app-container {
+  display: grid;
+  grid-template-areas: 
+    "header header"
+    "sidebar main";
+  grid-template-columns: 250px 1fr;
+  grid-template-rows: 80px 1fr;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Header Styles */
+.header {
+  grid-area: header;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+  z-index: 10;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.logo {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  color: var(--color-white);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xl);
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header h1 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.notification-btn {
+  position: relative;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  transition: all 0.2s ease;
+}
+
+.notification-btn:hover {
+  background-color: var(--color-bg-1);
+  border-color: var(--color-primary);
+}
+
+.notification-count {
+  background-color: var(--color-error);
+  color: var(--color-white);
+  border-radius: 50%;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+}
+
+/* Sidebar Styles */
+.sidebar {
+  grid-area: sidebar;
+  background-color: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  padding: var(--spacing-xl) 0;
+  overflow-y: auto;
+}
+
+.nav-menu {
+  list-style: none;
+}
+
+.nav-item {
+  display: block;
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-xl);
+  border: none;
+  background: none;
+  text-align: left;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+}
+
+.nav-item:hover {
+  background-color: var(--color-bg-1);
+  color: var(--color-text);
+}
+
+.nav-item.active {
+  background-color: var(--color-bg-1);
+  color: var(--color-primary);
+  border-left-color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Main Content Styles */
+.main-content {
+  grid-area: main;
+  padding: var(--spacing-xl);
+  overflow-y: auto;
+  background-color: var(--color-background);
+}
+
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
+.section-header {
+  margin-bottom: var(--spacing-xl);
+}
+
+.section-title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-md);
+}
+
+.section-subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-normal);
+}
+
+/* Dashboard Styles */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.metric-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.metric-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.metric-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-md);
+}
+
+.metric-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.metric-icon {
+  font-size: var(--font-size-xl);
+}
+
+.metric-value {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-sm);
+}
+
+.metric-change {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.metric-change.positive {
+  color: var(--color-success);
+}
+
+.metric-change.negative {
+  color: var(--color-error);
+}
+
+.metric-change.neutral {
+  color: var(--color-text-secondary);
+}
+
+/* Dashboard Grid Layout */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+}
+
+.dashboard-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-header {
+  display: flex;
+  justify-content: between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.card-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.card-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-xs);
+}
+
+/* Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn--primary {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn--secondary {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn--secondary:hover {
+  background-color: var(--color-background);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btn--small {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-sm);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  transition: all 0.2s ease;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(var(--color-teal-500-rgb), 0.1);
+}
+
+.form-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+}
+
+/* Table Styles */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.table th,
+.table td {
+  padding: var(--spacing-md) var(--spacing-lg);
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table th {
+  background-color: var(--color-bg-1);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.table tbody tr:hover {
+  background-color: var(--color-bg-1);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Status Badge Styles */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-badge--high {
+  background-color: rgba(var(--color-red-400-rgb), 0.1);
+  color: var(--color-red-500);
+  border: 1px solid rgba(var(--color-red-400-rgb), 0.2);
+}
+
+.status-badge--medium {
+  background-color: rgba(var(--color-orange-400-rgb), 0.1);
+  color: var(--color-orange-500);
+  border: 1px solid rgba(var(--color-orange-400-rgb), 0.2);
+}
+
+.status-badge--low {
+  background-color: rgba(34, 197, 94, 0.1);
+  color: rgba(34, 197, 94, 1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.status-badge--negotiation {
+  background-color: rgba(var(--color-orange-400-rgb), 0.1);
+  color: var(--color-orange-500);
+  border: 1px solid rgba(var(--color-orange-400-rgb), 0.2);
+}
+
+.status-badge--pricing {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: rgba(59, 130, 246, 1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.status-badge--approval {
+  background-color: rgba(34, 197, 94, 0.1);
+  color: rgba(34, 197, 94, 1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+/* Progress Bar Styles */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
+  border-radius: var(--radius-md);
+  transition: width 0.3s ease;
+}
+
+/* Alert Styles */
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-md);
+  border-left: 4px solid;
+}
+
+.alert--high {
+  background-color: rgba(var(--color-red-400-rgb), 0.1);
+  border-left-color: var(--color-red-500);
+}
+
+.alert--medium {
+  background-color: rgba(var(--color-orange-400-rgb), 0.1);
+  border-left-color: var(--color-orange-500);
+}
+
+.alert--low {
+  background-color: rgba(34, 197, 94, 0.1);
+  border-left-color: rgba(34, 197, 94, 1);
+}
+
+.alert-content h4 {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-xs);
+}
+
+.alert-content p {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.alert-meta {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* Chart Container */
+.chart-container {
+  position: relative;
+  height: 300px;
+  margin: var(--spacing-lg) 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .app-container {
+    grid-template-columns: 200px 1fr;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+  
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    grid-template-areas: 
+      "header"
+      "main";
+    grid-template-columns: 1fr;
+    grid-template-rows: 80px 1fr;
+  }
+  
+  .sidebar {
+    display: none;
+  }
+  
+  .header-content {
+    padding: 0 var(--spacing-md);
+  }
+  
+  .main-content {
+    padding: var(--spacing-md);
+  }
+  
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Deal List Styles */
+.deal-list {
+  list-style: none;
+}
+
+.deal-item {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+  transition: all 0.2s ease;
+}
+
+.deal-item:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.deal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-md);
+}
+
+.deal-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-xs);
+}
+
+.deal-customer {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.deal-value {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+}
+
+.deal-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+.deal-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.deal-meta-label {
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Recommendation Styles */
+.recommendation-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  margin: var(--spacing-lg) 0;
+  position: relative;
+}
+
+.recommendation-card::before {
+  content: '🤖';
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  font-size: var(--font-size-xl);
+}
+
+.recommendation-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.confidence-score {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  color: var(--color-white);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.recommendation-content h3 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-md);
+}
+
+.recommendation-list {
+  list-style: none;
+}
+
+.recommendation-list li {
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--color-border-light);
+  position: relative;
+  padding-left: var(--spacing-xl);
+}
+
+.recommendation-list li::before {
+  content: '•';
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+  position: absolute;
+  left: var(--spacing-md);
+}
+
+.recommendation-list li:last-child {
+  border-bottom: none;
+}
+
+/* Pricing Grid */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+  margin: var(--spacing-xl) 0;
+}
+
+.pricing-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.pricing-header {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.product-name {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-sm);
+}
+
+.product-category {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-md);
+}
+
+.ge-price {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+}
+
+.competitor-prices {
+  margin-top: var(--spacing-lg);
+}
+
+.competitor-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.competitor-price:last-child {
+  border-bottom: none;
+}
+
+.competitor-name {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
+.competitor-value {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+/* Loading Animation */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  border-top-color: var(--color-primary);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Utility Classes */
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+.text-success {
+  color: var(--color-success);
+}
+
+.text-warning {
+  color: var(--color-warning);
+}
+
+.text-error {
+  color: var(--color-error);
+}
+
+.font-semibold {
+  font-weight: var(--font-weight-semibold);
+}
+
+.font-bold {
+  font-weight: var(--font-weight-bold);
+}
+
+.mb-0 { margin-bottom: 0; }
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+.mb-xl { margin-bottom: var(--spacing-xl); }
+
+.mt-0 { margin-top: 0; }
+.mt-sm { margin-top: var(--spacing-sm); }
+.mt-md { margin-top: var(--spacing-md); }
+.mt-lg { margin-top: var(--spacing-lg); }
+.mt-xl { margin-top: var(--spacing-xl); }
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">GE</div>
+                    <h1>DealSense</h1>
+                </div>
+                <div class="header-actions">
+                    <div class="notifications">
+                        <button class="btn btn--secondary notification-btn">
+                            <span class="notification-icon">🔔</span>
+                            <span class="notification-count">8</span>
+                        </button>
+                    </div>
+                    <div class="user-profile">
+                        <span>Sarah Johnson</span>
+                        <div class="avatar">SJ</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <ul class="nav-menu">
+                <li><button class="nav-item active" data-section="dashboard">📊 Dashboard</button></li>
+                <li><button class="nav-item" data-section="deal-analyzer">🎯 Deal Analyzer</button></li>
+                <li><button class="nav-item" data-section="pricing-intelligence">💡 Pricing Intelligence</button></li>
+                <li><button class="nav-item" data-section="negotiation-playbook">📖 Negotiation Playbook</button></li>
+                <li><button class="nav-item" data-section="analytics">📈 Analytics</button></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <h2 class="section-title">Dashboard</h2>
+                    <p class="section-subtitle">AI-powered insights for your sales pipeline</p>
+                </div>
+
+                <!-- Key Metrics -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-title">Current Quarter Deals</div>
+                            <div class="metric-icon">🎯</div>
+                        </div>
+                        <div class="metric-value">47</div>
+                        <div class="metric-change positive">
+                            <span>↗</span>
+                            <span>+12% from last quarter</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-title">Win Rate</div>
+                            <div class="metric-icon">🏆</div>
+                        </div>
+                        <div class="metric-value">73.2%</div>
+                        <div class="metric-change positive">
+                            <span>↗</span>
+                            <span>+5.2% from last quarter</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-title">Avg Deal Size</div>
+                            <div class="metric-icon">💰</div>
+                        </div>
+                        <div class="metric-value">$2.4M</div>
+                        <div class="metric-change positive">
+                            <span>↗</span>
+                            <span>+8.3% from last quarter</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-title">Pipeline Value</div>
+                            <div class="metric-icon">📈</div>
+                        </div>
+                        <div class="metric-value">$89.7M</div>
+                        <div class="metric-change positive">
+                            <span>↗</span>
+                            <span>+15.7% from last quarter</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Grid -->
+                <div class="dashboard-grid">
+                    <!-- Recent Deals -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Recent Deals</h3>
+                                <p class="card-subtitle">Active opportunities requiring attention</p>
+                            </div>
+                        </div>
+                        <div class="deal-list">
+                            <div class="deal-item">
+                                <div class="deal-header">
+                                    <div>
+                                        <div class="deal-title">Revolution CT Scanner</div>
+                                        <div class="deal-customer">Mayo Clinic</div>
+                                    </div>
+                                    <div class="deal-value">$4.2M</div>
+                                </div>
+                                <div class="deal-meta">
+                                    <div class="deal-meta-item">
+                                        <div class="deal-meta-label">Stage</div>
+                                        <div><span class="status-badge status-badge--negotiation">Negotiation</span></div>
+                                    </div>
+                                    <div class="deal-meta-item">
+                                        <div class="deal-meta-label">Probability</div>
+                                        <div>85%</div>
+                                    </div>
+                                    <div class="deal-meta-item">
+                                        <div class="deal-meta-label">Last Activity</div>
+                                        <div>2 hours ago</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="deal-item">
+                                <div class="deal-header">
+                                    <div>
+                                        <div class="deal-title">MR Package Bundle</div>
+                                        <div class="deal-customer">Johns Hopkins</div>
+                                    </div>
+                                    <div class="deal-value">$6.8M</div>
+                                </div>
+                                <div class="deal-meta">
+                                    <div class="deal-meta-item">
+                                        <div class="deal-meta-label">Stage</div>
+                                        <div><span class="status-badge status-badge--pricing">Pricing Review</span></div>
+                                    </div>
+                                    <div class="deal-meta-item">
+                                        <div class="deal-meta-label">Probability</div>
+                                        <div>72%</div>
+                                    </div>
+                                    <div class="deal-meta-item">
+                                        <div class="deal-meta-label">Last Activity</div>
+                                        <div>1 day ago</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="deal-item">
+                                <div class="deal-header">
+                                    <div>
+                                        <div class="deal-title">Ultrasound Suite</div>
+                                        <div class="deal-customer">Cleveland Clinic</div>
+                                    </div>
+                                    <div class="deal-value">$1.9M</div>
+                                </div>
+                                <div class="deal-meta">
+                                    <div class="deal-meta-item">
+                                        <div class="deal-meta-label">Stage</div>
+                                        <div><span class="status-badge status-badge--approval">Final Approval</span></div>
+                                    </div>
+                                    <div class="deal-meta-item">
+                                        <div class="deal-meta-label">Probability</div>
+                                        <div>95%</div>
+                                    </div>
+                                    <div class="deal-meta-item">
+                                        <div class="deal-meta-label">Last Activity</div>
+                                        <div>3 hours ago</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Competitive Alerts -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Competitive Alerts</h3>
+                                <p class="card-subtitle">AI-detected market changes</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="alert alert--high">
+                                <div class="alert-content">
+                                    <h4>Siemens Healthineers</h4>
+                                    <p>New CT pricing strategy detected - 15% reduction in mid-range models</p>
+                                    <div class="alert-meta">2 hours ago • High Impact</div>
+                                </div>
+                            </div>
+                            <div class="alert alert--medium">
+                                <div class="alert-content">
+                                    <h4>Philips Healthcare</h4>
+                                    <p>Extended service contract promotions launched</p>
+                                    <div class="alert-meta">1 day ago • Medium Impact</div>
+                                </div>
+                            </div>
+                            <div class="alert alert--medium">
+                                <div class="alert-content">
+                                    <h4>Canon Medical</h4>
+                                    <p>Aggressive bundling offers in ultrasound segment</p>
+                                    <div class="alert-meta">2 days ago • Medium Impact</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pipeline Chart -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Sales Pipeline</h3>
+                            <p class="card-subtitle">Deals by stage and value</p>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="pipelineChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Deal Analyzer Section -->
+            <section id="deal-analyzer" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Deal Analyzer</h2>
+                    <p class="section-subtitle">AI-powered deal optimization and pricing recommendations</p>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Deal Input Form -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Deal Information</h3>
+                                <p class="card-subtitle">Enter deal details for AI analysis</p>
+                            </div>
+                        </div>
+                        <form id="dealAnalyzerForm">
+                            <div class="form-group">
+                                <label class="form-label">Customer Name</label>
+                                <input type="text" class="form-input" placeholder="e.g., Mayo Clinic" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Product Category</label>
+                                    <select class="form-select" required>
+                                        <option value="">Select Product</option>
+                                        <option value="ct">CT Scanners</option>
+                                        <option value="mri">MRI Systems</option>
+                                        <option value="ultrasound">Ultrasound</option>
+                                        <option value="digital">Digital Solutions</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Deal Value ($M)</label>
+                                    <input type="number" class="form-input" placeholder="2.5" step="0.1" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Timeline (Months)</label>
+                                    <input type="number" class="form-input" placeholder="6" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Primary Competitor</label>
+                                    <select class="form-select">
+                                        <option value="">Select Competitor</option>
+                                        <option value="siemens">Siemens Healthineers</option>
+                                        <option value="philips">Philips Healthcare</option>
+                                        <option value="canon">Canon Medical</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Special Requirements</label>
+                                <textarea class="form-textarea" placeholder="Any specific customer requirements or constraints..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn--primary">
+                                🤖 Analyze Deal
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- AI Recommendations -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">AI Recommendations</h3>
+                                <p class="card-subtitle">Powered by historical deal data</p>
+                            </div>
+                        </div>
+                        <div id="aiRecommendations">
+                            <div class="recommendation-card">
+                                <div class="recommendation-header">
+                                    <div class="confidence-score">92% Confidence</div>
+                                </div>
+                                <div class="recommendation-content">
+                                    <h3>Pricing Strategy</h3>
+                                    <ul class="recommendation-list">
+                                        <li>Target price range: $2.2M - $2.6M based on similar deals</li>
+                                        <li>Offer 3-year service contract for additional 8% margin</li>
+                                        <li>Bundle training program to increase value proposition</li>
+                                        <li>Consider 2% early payment discount</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="recommendation-card">
+                                <div class="recommendation-header">
+                                    <div class="confidence-score">87% Confidence</div>
+                                </div>
+                                <div class="recommendation-content">
+                                    <h3>Negotiation Tactics</h3>
+                                    <ul class="recommendation-list">
+                                        <li>Lead with technological superiority and innovation</li>
+                                        <li>Emphasize GE's global service network</li>
+                                        <li>Reference successful implementations at peer institutions</li>
+                                        <li>Prepare for 10-15% price reduction requests</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="recommendation-card">
+                                <div class="recommendation-header">
+                                    <div class="confidence-score">79% Confidence</div>
+                                </div>
+                                <div class="recommendation-content">
+                                    <h3>Risk Factors</h3>
+                                    <ul class="recommendation-list">
+                                        <li>Competitor likely to offer aggressive financing terms</li>
+                                        <li>Customer historically price-sensitive on service contracts</li>
+                                        <li>Budget approval may require additional stakeholder buy-in</li>
+                                        <li>Timeline suggests potential for Q4 close pressure</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pricing Intelligence Section -->
+            <section id="pricing-intelligence" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Pricing Intelligence</h2>
+                    <p class="section-subtitle">Real-time market pricing data and competitive analysis</p>
+                </div>
+
+                <!-- Product Pricing Grid -->
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <div class="product-name">Revolution CT Scanner</div>
+                            <div class="product-category">Computed Tomography</div>
+                            <div class="ge-price">$1.5M</div>
+                        </div>
+                        <div>
+                            <div style="margin-bottom: 1rem;">
+                                <div style="font-size: 0.875rem; color: var(--color-text-secondary); margin-bottom: 0.5rem;">Market Range: $1.2M - $1.8M</div>
+                                <div style="font-size: 0.875rem; color: var(--color-success); font-weight: 600;">Margin: 42%</div>
+                            </div>
+                            <div class="competitor-prices">
+                                <div class="competitor-price">
+                                    <span class="competitor-name">Siemens</span>
+                                    <span class="competitor-value">$1.4M</span>
+                                </div>
+                                <div class="competitor-price">
+                                    <span class="competitor-name">Philips</span>
+                                    <span class="competitor-value">$1.6M</span>
+                                </div>
+                                <div class="competitor-price">
+                                    <span class="competitor-name">Canon</span>
+                                    <span class="competitor-value">$1.3M</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <div class="product-name">SIGNA MRI System</div>
+                            <div class="product-category">Magnetic Resonance</div>
+                            <div class="ge-price">$2.8M</div>
+                        </div>
+                        <div>
+                            <div style="margin-bottom: 1rem;">
+                                <div style="font-size: 0.875rem; color: var(--color-text-secondary); margin-bottom: 0.5rem;">Market Range: $2.1M - $3.2M</div>
+                                <div style="font-size: 0.875rem; color: var(--color-success); font-weight: 600;">Margin: 38%</div>
+                            </div>
+                            <div class="competitor-prices">
+                                <div class="competitor-price">
+                                    <span class="competitor-name">Siemens</span>
+                                    <span class="competitor-value">$2.9M</span>
+                                </div>
+                                <div class="competitor-price">
+                                    <span class="competitor-name">Philips</span>
+                                    <span class="competitor-value">$3.1M</span>
+                                </div>
+                                <div class="competitor-price">
+                                    <span class="competitor-name">Canon</span>
+                                    <span class="competitor-value">$2.6M</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <div class="product-name">LOGIQ Ultrasound</div>
+                            <div class="product-category">Ultrasound</div>
+                            <div class="ge-price">$245K</div>
+                        </div>
+                        <div>
+                            <div style="margin-bottom: 1rem;">
+                                <div style="font-size: 0.875rem; color: var(--color-text-secondary); margin-bottom: 0.5rem;">Market Range: $180K - $280K</div>
+                                <div style="font-size: 0.875rem; color: var(--color-success); font-weight: 600;">Margin: 45%</div>
+                            </div>
+                            <div class="competitor-prices">
+                                <div class="competitor-price">
+                                    <span class="competitor-name">Siemens</span>
+                                    <span class="competitor-value">$235K</span>
+                                </div>
+                                <div class="competitor-price">
+                                    <span class="competitor-name">Philips</span>
+                                    <span class="competitor-value">$265K</span>
+                                </div>
+                                <div class="competitor-price">
+                                    <span class="competitor-name">Canon</span>
+                                    <span class="competitor-value">$220K</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Market Trends Chart -->
+                <div class="dashboard-card mt-xl">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Market Pricing Trends</h3>
+                            <p class="card-subtitle">12-month pricing evolution by product category</p>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="pricingTrendsChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Negotiation Playbook Section -->
+            <section id="negotiation-playbook" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Negotiation Playbook</h2>
+                    <p class="section-subtitle">AI-powered negotiation strategies based on customer profiles</p>
+                </div>
+
+                <!-- Strategy Cards -->
+                <div class="pricing-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Academic Medical Center</h3>
+                                <p class="card-subtitle">Success Rate: 78%</p>
+                            </div>
+                        </div>
+                        <div class="recommendation-content">
+                            <h4 style="margin-bottom: 1rem; color: var(--color-primary);">Key Strategy</h4>
+                            <p style="margin-bottom: 1rem; color: var(--color-text-secondary);">Focus on research partnerships and educational discounts</p>
+                            
+                            <h4 style="margin-bottom: 1rem; color: var(--color-primary);">Recommended Tactics</h4>
+                            <ul class="recommendation-list">
+                                <li>Offer multi-year service agreements</li>
+                                <li>Highlight research collaboration opportunities</li>
+                                <li>Provide training program incentives</li>
+                                <li>Emphasize publication opportunities</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Private Hospital System</h3>
+                                <p class="card-subtitle">Success Rate: 82%</p>
+                            </div>
+                        </div>
+                        <div class="recommendation-content">
+                            <h4 style="margin-bottom: 1rem; color: var(--color-primary);">Key Strategy</h4>
+                            <p style="margin-bottom: 1rem; color: var(--color-text-secondary);">Emphasize ROI and operational efficiency</p>
+                            
+                            <h4 style="margin-bottom: 1rem; color: var(--color-primary);">Recommended Tactics</h4>
+                            <ul class="recommendation-list">
+                                <li>Present detailed ROI analysis</li>
+                                <li>Offer performance guarantees</li>
+                                <li>Highlight workflow optimization</li>
+                                <li>Focus on cost per procedure metrics</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Rural Healthcare Facility</h3>
+                                <p class="card-subtitle">Success Rate: 69%</p>
+                            </div>
+                        </div>
+                        <div class="recommendation-content">
+                            <h4 style="margin-bottom: 1rem; color: var(--color-primary);">Key Strategy</h4>
+                            <p style="margin-bottom: 1rem; color: var(--color-text-secondary);">Focus on remote support and financing options</p>
+                            
+                            <h4 style="margin-bottom: 1rem; color: var(--color-primary);">Recommended Tactics</h4>
+                            <ul class="recommendation-list">
+                                <li>Offer flexible payment terms</li>
+                                <li>Highlight remote diagnostics</li>
+                                <li>Provide comprehensive training</li>
+                                <li>Emphasize 24/7 support availability</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Negotiation Tips -->
+                <div class="dashboard-card mt-xl">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">AI-Generated Negotiation Tips</h3>
+                            <p class="card-subtitle">Based on 10,000+ successful deals</p>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                        <div>
+                            <h4 style="margin-bottom: 1rem; color: var(--color-primary);">Opening Moves</h4>
+                            <ul class="recommendation-list">
+                                <li>Start with value proposition, not price</li>
+                                <li>Reference similar successful implementations</li>
+                                <li>Establish decision-making timeline early</li>
+                                <li>Identify all stakeholders and influencers</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="margin-bottom: 1rem; color: var(--color-primary);">Closing Techniques</h4>
+                            <ul class="recommendation-list">
+                                <li>Create urgency with limited-time offers</li>
+                                <li>Offer bundled services for higher margins</li>
+                                <li>Use alternative close with two options</li>
+                                <li>Leverage peer pressure from industry leaders</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Analytics</h2>
+                    <p class="section-subtitle">Performance insights and predictive analytics</p>
+                </div>
+
+                <!-- Analytics Metrics -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-title">Deals In Progress</div>
+                            <div class="metric-icon">⏳</div>
+                        </div>
+                        <div class="metric-value">23</div>
+                        <div class="metric-change neutral">
+                            <span>→</span>
+                            <span>Same as last month</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-title">Avg Deal Cycle</div>
+                            <div class="metric-icon">⏱️</div>
+                        </div>
+                        <div class="metric-value">127 days</div>
+                        <div class="metric-change positive">
+                            <span>↗</span>
+                            <span>-8 days from last quarter</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-title">Revenue Forecast</div>
+                            <div class="metric-icon">🎯</div>
+                        </div>
+                        <div class="metric-value">$156M</div>
+                        <div class="metric-change positive">
+                            <span>↗</span>
+                            <span>+18% vs target</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-title">AI Accuracy</div>
+                            <div class="metric-icon">🤖</div>
+                        </div>
+                        <div class="metric-value">91.3%</div>
+                        <div class="metric-change positive">
+                            <span>↗</span>
+                            <span>+2.1% this month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Win Rate Trends</h3>
+                                <p class="card-subtitle">Quarterly performance</p>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="winRateChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Revenue by Product</h3>
+                                <p class="card-subtitle">Current quarter breakdown</p>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance Table -->
+                <div class="dashboard-card mt-xl">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">Sales Representative Performance</h3>
+                            <p class="card-subtitle">Current quarter metrics</p>
+                        </div>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Representative</th>
+                                <th>Deals</th>
+                                <th>Win Rate</th>
+                                <th>Revenue ($M)</th>
+                                <th>Avg Deal Size</th>
+                                <th>Performance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Sarah Johnson</td>
+                                <td>8</td>
+                                <td>87%</td>
+                                <td>$12.4</td>
+                                <td>$1.55M</td>
+                                <td><span class="status-badge status-badge--approval">Excellent</span></td>
+                            </tr>
+                            <tr>
+                                <td>Mike Chen</td>
+                                <td>6</td>
+                                <td>83%</td>
+                                <td>$9.8</td>
+                                <td>$1.63M</td>
+                                <td><span class="status-badge status-badge--approval">Excellent</span></td>
+                            </tr>
+                            <tr>
+                                <td>Lisa Rodriguez</td>
+                                <td>9</td>
+                                <td>78%</td>
+                                <td>$11.2</td>
+                                <td>$1.24M</td>
+                                <td><span class="status-badge status-badge--negotiation">Good</span></td>
+                            </tr>
+                            <tr>
+                                <td>David Kim</td>
+                                <td>7</td>
+                                <td>71%</td>
+                                <td>$8.9</td>
+                                <td>$1.27M</td>
+                                <td><span class="status-badge status-badge--negotiation">Good</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+// Application data
+const appData = {
+  "dashboardMetrics": {
+    "currentQuarterDeals": 47,
+    "winRate": 73.2,
+    "avgDealSize": 2.4,
+    "pipelineValue": 89.7,
+    "dealsInProgress": 23,
+    "competitiveAlerts": 8
+  },
+  "recentDeals": [
+    {
+      "id": "D001",
+      "customer": "Mayo Clinic",
+      "product": "Revolution CT Scanner",
+      "value": 4.2,
+      "stage": "Negotiation",
+      "probability": 85,
+      "lastActivity": "2 hours ago"
+    },
+    {
+      "id": "D002",
+      "customer": "Johns Hopkins",
+      "product": "MR Package Bundle",
+      "value": 6.8,
+      "stage": "Pricing Review",
+      "probability": 72,
+      "lastActivity": "1 day ago"
+    },
+    {
+      "id": "D003",
+      "customer": "Cleveland Clinic",
+      "product": "Ultrasound Suite",
+      "value": 1.9,
+      "stage": "Final Approval",
+      "probability": 95,
+      "lastActivity": "3 hours ago"
+    }
+  ],
+  "pipelineData": [
+    {"stage": "Qualified Lead", "count": 12, "value": 18.4},
+    {"stage": "Needs Analysis", "count": 8, "value": 24.1},
+    {"stage": "Proposal", "count": 6, "value": 19.8},
+    {"stage": "Negotiation", "count": 4, "value": 15.7},
+    {"stage": "Final Approval", "count": 3, "value": 11.7}
+  ],
+  "competitiveAlerts": [
+    {
+      "competitor": "Siemens Healthineers",
+      "alert": "New CT pricing strategy detected - 15% reduction in mid-range models",
+      "impact": "High",
+      "timestamp": "2 hours ago"
+    },
+    {
+      "competitor": "Philips Healthcare",
+      "alert": "Extended service contract promotions launched",
+      "impact": "Medium",
+      "timestamp": "1 day ago"
+    },
+    {
+      "competitor": "Canon Medical",
+      "alert": "Aggressive bundling offers in ultrasound segment",
+      "impact": "Medium",
+      "timestamp": "2 days ago"
+    }
+  ],
+  "products": [
+    {
+      "name": "Revolution CT Scanner",
+      "category": "Computed Tomography",
+      "marketPrice": "$1.2M - $1.8M",
+      "gePrice": "$1.5M",
+      "competitorPricing": {"Siemens": "$1.4M", "Philips": "$1.6M", "Canon": "$1.3M"},
+      "margin": 42
+    },
+    {
+      "name": "SIGNA MRI System",
+      "category": "Magnetic Resonance",
+      "marketPrice": "$2.1M - $3.2M",
+      "gePrice": "$2.8M",
+      "competitorPricing": {"Siemens": "$2.9M", "Philips": "$3.1M", "Canon": "$2.6M"},
+      "margin": 38
+    },
+    {
+      "name": "LOGIQ Ultrasound",
+      "category": "Ultrasound",
+      "marketPrice": "$180K - $280K",
+      "gePrice": "$245K",
+      "competitorPricing": {"Siemens": "$235K", "Philips": "$265K", "Canon": "$220K"},
+      "margin": 45
+    }
+  ],
+  "negotiationStrategies": [
+    {
+      "scenario": "High-volume academic medical center",
+      "strategy": "Focus on research partnerships and educational discounts",
+      "tactics": ["Offer multi-year service agreements", "Highlight research collaboration opportunities", "Provide training program incentives"],
+      "successRate": 78
+    },
+    {
+      "scenario": "Private hospital system",
+      "strategy": "Emphasize ROI and operational efficiency",
+      "tactics": ["Present detailed ROI analysis", "Offer performance guarantees", "Highlight workflow optimization"],
+      "successRate": 82
+    },
+    {
+      "scenario": "Rural healthcare facility",
+      "strategy": "Focus on remote support and financing options",
+      "tactics": ["Offer flexible payment terms", "Highlight remote diagnostics", "Provide comprehensive training"],
+      "successRate": 69
+    }
+  ],
+  "analyticsData": {
+    "winRateByQuarter": [68, 71, 73, 76],
+    "dealsByProduct": [
+      {"product": "CT Scanners", "deals": 15, "revenue": 18.2},
+      {"product": "MRI Systems", "deals": 8, "revenue": 22.4},
+      {"product": "Ultrasound", "deals": 12, "revenue": 8.1},
+      {"product": "Digital Solutions", "deals": 6, "revenue": 4.8}
+    ],
+    "repPerformance": [
+      {"rep": "Sarah Johnson", "deals": 8, "winRate": 87, "revenue": 12.4},
+      {"rep": "Mike Chen", "deals": 6, "winRate": 83, "revenue": 9.8},
+      {"rep": "Lisa Rodriguez", "deals": 9, "winRate": 78, "revenue": 11.2},
+      {"rep": "David Kim", "deals": 7, "winRate": 71, "revenue": 8.9}
+    ]
+  }
+};
+
+// Navigation functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Navigation handling
+    const navItems = document.querySelectorAll('.nav-item');
+    const sections = document.querySelectorAll('.section');
+
+    navItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const sectionId = this.getAttribute('data-section');
+            
+            // Update active nav item
+            navItems.forEach(nav => nav.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Update active section
+            sections.forEach(section => section.classList.remove('active'));
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+        });
+    });
+
+    // Form handling for Deal Analyzer
+    const dealForm = document.getElementById('dealAnalyzerForm');
+    if (dealForm) {
+        dealForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="loading"></span> Analyzing...';
+            submitBtn.disabled = true;
+            
+            // Simulate AI analysis
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+                // Show success message or update recommendations
+                alert('Deal analysis complete! AI recommendations have been updated.');
+            }, 2000);
+        });
+    }
+
+    // Initialize charts
+    initializeCharts();
+});
+
+// Chart initialization
+function initializeCharts() {
+    // Pipeline Chart
+    const pipelineCtx = document.getElementById('pipelineChart');
+    if (pipelineCtx) {
+        new Chart(pipelineCtx, {
+            type: 'bar',
+            data: {
+                labels: appData.pipelineData.map(item => item.stage),
+                datasets: [
+                    {
+                        label: 'Deal Count',
+                        data: appData.pipelineData.map(item => item.count),
+                        backgroundColor: 'rgba(33, 128, 141, 0.8)',
+                        borderColor: 'rgba(33, 128, 141, 1)',
+                        borderWidth: 1,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'Value ($M)',
+                        data: appData.pipelineData.map(item => item.value),
+                        backgroundColor: 'rgba(45, 166, 178, 0.8)',
+                        borderColor: 'rgba(45, 166, 178, 1)',
+                        borderWidth: 1,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Deal Count'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Value ($M)'
+                        },
+                        grid: {
+                            drawOnChartArea: false,
+                        },
+                    },
+                }
+            }
+        });
+    }
+
+    // Pricing Trends Chart
+    const pricingTrendsCtx = document.getElementById('pricingTrendsChart');
+    if (pricingTrendsCtx) {
+        new Chart(pricingTrendsCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [
+                    {
+                        label: 'CT Scanners',
+                        data: [1.5, 1.52, 1.48, 1.51, 1.49, 1.53, 1.50, 1.52, 1.51, 1.49, 1.50, 1.51],
+                        borderColor: 'rgba(33, 128, 141, 1)',
+                        backgroundColor: 'rgba(33, 128, 141, 0.1)',
+                        tension: 0.1
+                    },
+                    {
+                        label: 'MRI Systems',
+                        data: [2.8, 2.85, 2.82, 2.87, 2.81, 2.89, 2.84, 2.88, 2.86, 2.83, 2.85, 2.87],
+                        borderColor: 'rgba(45, 166, 178, 1)',
+                        backgroundColor: 'rgba(45, 166, 178, 0.1)',
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Ultrasound',
+                        data: [245, 248, 242, 246, 244, 249, 245, 247, 246, 243, 245, 246],
+                        borderColor: 'rgba(50, 184, 198, 1)',
+                        backgroundColor: 'rgba(50, 184, 198, 0.1)',
+                        tension: 0.1,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                },
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Price ($M)'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Price ($K)'
+                        },
+                        grid: {
+                            drawOnChartArea: false,
+                        },
+                    }
+                }
+            }
+        });
+    }
+
+    // Win Rate Chart
+    const winRateCtx = document.getElementById('winRateChart');
+    if (winRateCtx) {
+        new Chart(winRateCtx, {
+            type: 'line',
+            data: {
+                labels: ['Q1 2024', 'Q2 2024', 'Q3 2024', 'Q4 2024'],
+                datasets: [{
+                    label: 'Win Rate (%)',
+                    data: appData.analyticsData.winRateByQuarter,
+                    borderColor: 'rgba(33, 128, 141, 1)',
+                    backgroundColor: 'rgba(33, 128, 141, 0.1)',
+                    tension: 0.1,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 60,
+                        max: 80,
+                        title: {
+                            display: true,
+                            text: 'Win Rate (%)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Revenue by Product Chart
+    const revenueCtx = document.getElementById('revenueChart');
+    if (revenueCtx) {
+        new Chart(revenueCtx, {
+            type: 'doughnut',
+            data: {
+                labels: appData.analyticsData.dealsByProduct.map(item => item.product),
+                datasets: [{
+                    data: appData.analyticsData.dealsByProduct.map(item => item.revenue),
+                    backgroundColor: [
+                        'rgba(33, 128, 141, 0.8)',
+                        'rgba(45, 166, 178, 0.8)',
+                        'rgba(50, 184, 198, 0.8)',
+                        'rgba(26, 104, 115, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(33, 128, 141, 1)',
+                        'rgba(45, 166, 178, 1)',
+                        'rgba(50, 184, 198, 1)',
+                        'rgba(26, 104, 115, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+    }
+}
+
+// Utility functions
+function formatCurrency(value) {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1
+    }).format(value * 1000000);
+}
+
+function formatPercentage(value) {
+    return `${value}%`;
+}
+
+// Export for use in other modules if needed
+window.GEDealSense = {
+    appData,
+    formatCurrency,
+    formatPercentage
+};
+    </script>
+</body>
+</html>
